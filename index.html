@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网银预投保</title>
+    <link rel="stylesheet" href="./public/lib/layui/css/layui.mobile.css" />
+    <link rel="stylesheet" href="./public/css/public.css" />
+    <style>
+      .header {
+        width: 750px;
+        height: 88px;
+        background: #ffffff;
+        box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .header h2 {
+        line-height: 88px;
+        font-size: 32px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #111111;
+      }
+      .endIcon {
+        margin: 113px 253px 0 253px;
+        width: 224px;
+        height: 310px;
+      }
+      .title {
+        font-size: 32px;
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: #252525;
+        line-height: 34px;
+        text-align: center;
+        margin-bottom: 32px;
+        margin-top: 66px;
+      }
+      .text {
+        width: 100%;
+        font-size: 28px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #666666;
+        text-align: center;
+        color: #666666;
+        line-height: 42px;
+        margin: 0 auto;
+      }
+      .btn_up {
+        width: 686px;
+        height: 104px;
+        background: #4f82fa;
+        border-radius: 8px;
+        line-height: 104px;
+        text-align: center;
+        margin: 0 auto;
+        font-size: 36px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #ffffff;
+        position: absolute;
+        bottom: 46px;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h2>人脸识别</h2>
+    </div>
+    <div class="box">
+      <img class="endIcon" src="./public/imgs/person.png" alt="" srcset="" />
+      <h2 class="title">尊敬的客户，您好！</h2>
+      <p class="text">为保障您的信息安全，</p>
+      <p class="text">将在信息展示前进行人脸识别身份核验</p>
+    </div>
+    <div onclick="nextStep()" class="btn_up">下一步</div>
+  </body>
+  <script src="./public/lib/layui/layui.js"></script>
+  <script src="./public/js/public.js"></script>
+  <script>
+    /*
+        这里介绍新的方法:H5新媒体接口 navigator.mediaDevices.getUserMedia()
+        这个方法会提示用户是否允许媒体输入,(媒体输入主要包括相机,视频采集设备,屏幕共享服务,麦克风,A/D转换器等)
+        返回的是一个Promise对象。
+        如果用户同意使用权限,则会将 MediaStream对象作为resolve()的参数传给then()
+        如果用户拒绝使用权限,或者请求的媒体资源不可用,则会将 PermissionDeniedError作为reject()的参数传给catch()
+        */
+    function nextStep() {
+      // 头像相机
+
+      var self = this;
+      if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+      }
+      if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function (constraints) {
+          var getUserMedia =
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia ||
+            navigator.oGetUserMedia;
+          if (!getUserMedia) {
+            return Promise.reject(
+              new Error("getUserMedia is not implemented in this browser")
+            );
+          }
+          return new Promise(function (resolve, reject) {
+            getUserMedia.call(navigator, constraints, resolve, reject);
+          });
+        };
+      }
+      if (window.stream) {
+        window.stream.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
+      var constraints = (window.constraints = {
+        audio: false,
+        video: {
+          sourceId: "default",
+          facingMode: { exact: "user" },
+        },
+      });
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(function (stream) {})
+        .catch(function (err) {
+          alert(err.name + ": " + err.message);
+        });
+      window.location.href = "./upPapers.html";
+    }
+  </script>
+</html>
