@@ -80,8 +80,10 @@
         height: 104px;
         background: #c6ccdb;
         border-radius: 8px;
-        margin:0 auto;
-        margin-top: 144px;
+        position: absolute;
+        bottom: 46px;
+        left: 50%;
+        transform: translate(-50%, 0);
         font-size: 36px;
         font-family: PingFang SC;
         font-weight: 500;
@@ -91,6 +93,9 @@
       }
     </style>
   </head>
+  <script src="./public/js/auto.js"></script>
+
+
   <body>
     <div class="moble">
 
@@ -125,7 +130,6 @@
 
   </body>
   <script src="./public/lib/layui/layui.js"></script>
-  <script src="./public/js/public.js"></script>
   <script src="./public/lib/jquery-1.11.1.min.js"></script>
   <script>
     function isCardNo(card) {
