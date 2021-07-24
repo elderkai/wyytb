@@ -104,9 +104,9 @@ hr {
 }
 .moble{
   background: #fff;
+  max-width: 100%;
   width: 750px;
-  margin:0 auto;
+  margin: 0 auto;
   position: relative;
-  min-height: 100vh;
   overflow: hidden;
 }
